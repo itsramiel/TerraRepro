@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "react": "19.0.0",
-    "react-native": "0.79.3"
+    "react-native": "0.79.3",
+    "react-native-config": "^1.5.5",
+    "terra-react": "^1.7.7"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -35,5 +37,6 @@
   },
   "engines": {
     "node": ">=18"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }

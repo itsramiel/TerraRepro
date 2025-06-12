@@ -1,130 +1,130 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import {useState} from 'react';
+import {Alert, Button, StyleSheet, View} from 'react-native';
+import Config from 'react-native-config';
+import {Connections, getUserId, initConnection, initTerra} from 'terra-react';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const devId = Config.DEV_ID;
+const apiKey = Config.API_KEY;
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const REF_ID = '221f44ad-fdc3-4790-8c14-420fd4e72f36';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+type TGenerateAuthTokenResponse = {
+  status: string;
+  token: string;
+  expires_in: number;
+};
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+function App() {
+  const [isInitialized, setIsInitialized] = useState(false);
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const initializeSdk = async () => {
+    const result = await initTerra(devId, REF_ID);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    if (result.error) {
+      Alert.alert('Failed to initialize sdk');
+      setIsInitialized(false);
+    } else {
+      setIsInitialized(true);
+    }
   };
 
-  /*
-   * To keep the template simple and small we're adding padding to prevent view
-   * from rendering under the System UI.
-   * For bigger apps the recommendation is to use `react-native-safe-area-context`:
-   * https://github.com/AppAndFlow/react-native-safe-area-context
-   *
-   * You can read more about it here:
-   * https://github.com/react-native-community/discussions-and-proposals/discussions/827
-   */
-  const safePadding = '5%';
+  const generateAuthToken = async () => {
+    const response = await fetch(
+      'https://api.tryterra.co/v2/auth/generateAuthToken',
+      {
+        method: 'POST',
+        headers: {
+          'dev-id': devId,
+          'x-api-key': apiKey,
+        },
+      },
+    );
+
+    const {token} = (await response.json()) as TGenerateAuthTokenResponse;
+    console.log('token', token);
+
+    return token;
+  };
+
+  const initializeConnection = async () => {
+    try {
+      // Example token received from your backend
+      const token = await generateAuthToken();
+
+      // Define connection type and custom permissions
+      const connection = Connections.APPLE_HEALTH;
+      const schedulerOn = true; // Enables background delivery
+
+      // Initialize the connection
+      const successMessage = await initConnection(
+        connection,
+        token,
+        schedulerOn,
+        [],
+      );
+      if (successMessage.error !== null) {
+        console.log('Error initialising a connection');
+      }
+    } catch (error) {
+      console.log('Error initialising a connection');
+    }
+  };
+
+  const checkIsConnected = async () => {
+    const result = await getUserId(Connections.APPLE_HEALTH);
+    if (result.userId) {
+      Alert.alert(`User is connected: ${result.userId}`);
+    } else {
+      Alert.alert('User is not connected');
+    }
+  };
+
+  const deauthorizeIntegration = async () => {
+    const userId = (await getUserId(Connections.APPLE_HEALTH)).userId;
+    if (!userId) {
+      Alert.alert('User is not connected');
+      return;
+    }
+    try {
+      const response = await fetch(
+        `https://api.tryterra.co/v2/auth/deauthenticateUser?user_id=${userId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'dev-id': devId,
+            'x-api-key': apiKey,
+          },
+        },
+      );
+      const json = await response.json();
+      Alert.alert(`deauthenticateUser response: ${JSON.stringify(json)}`);
+    } catch (error) {
+      console.log('Error deauthorizing integration');
+    }
+  };
+
+  if (!isInitialized) {
+    return (
+      <View style={styles.screen}>
+        <Button title="Initialize SDK" onPress={initializeSdk} />
+      </View>
+    );
+  }
 
   return (
-    <View style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        style={backgroundStyle}>
-        <View style={{paddingRight: safePadding}}>
-          <Header/>
-        </View>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            paddingHorizontal: safePadding,
-            paddingBottom: safePadding,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+    <View style={styles.screen}>
+      <Button title="Initialize Connection" onPress={initializeConnection} />
+      <Button title="Check is connected" onPress={checkIsConnected} />
+      <Button title="Remove connection" onPress={deauthorizeIntegration} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  screen: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

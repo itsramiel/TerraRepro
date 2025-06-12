@@ -26,14 +26,30 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-	  <!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+  <key>BGTaskSchedulerPermittedIdentifiers</key>
+  <array>
+    <string>co.tryterra.data.post.request</string>
+  </array>
+    
+  <key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
+  <string>Using TerraiOS to gather health data</string>
+
+  <key>NSHealthShareUsageDescription</key>
+  <string>Using TerraiOS as a mean of getting Health Data</string>
+
+  <key>NSHealthUpdateUsageDescription</key>
+  <string>Allow writing data to health kit</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>processing</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
