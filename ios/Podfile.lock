@@ -1659,10 +1659,10 @@ PODS:
     - React-perflogger (= 0.79.3)
     - React-utils (= 0.79.3)
   - SocketRocket (0.7.1)
-  - terra-react (1.7.7):
+  - terra-react (0.4.1):
     - React-Core
-    - TerraiOS (= 1.6.26)
-  - TerraiOS (1.6.26)
+    - TerraiOS (= 1.6.24)
+  - TerraiOS (1.6.24)
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -1965,8 +1965,8 @@ SPEC CHECKSUMS:
   ReactCodegen: c2f2ec5dd32215237420bedebae0e66867e1e8ea
   ReactCommon: e243aa261effc83c10208f0794bade55ca9ae5b6
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
-  terra-react: 0b5d5574de3c665f4463f89f97dec9919bacbfe4
-  TerraiOS: 919606b2ed63560faaccf72e6f7e995cc3b76272
+  terra-react: 1314d46e172891da4e6f201c939b5437947fe323
+  TerraiOS: 9197ef9054c07276689fdcf042815ea68c542df4
   Yoga: 29f74a5b77dca8c37669e1e1e867e5f4e12407df
 
 PODFILE CHECKSUM: 65ce4e3118f5542ff7e9fe72a52236e6e1e82bf1

@@ -6047,10 +6047,10 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-terra-react@^1.7.7:
-  version "1.7.7"
-  resolved "https://registry.yarnpkg.com/terra-react/-/terra-react-1.7.7.tgz#f2791ec1e500f50f80ac3012c00478fe72a96dd2"
-  integrity sha512-urYTVtygoCYut9SOT/c67FKiXhTy/Gmm9uZxU8kcQKBl2yjTgyjD79P37VrbZhG5TXqvASM9cFtUQguYvCMufg==
+terra-react@0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/terra-react/-/terra-react-0.4.1.tgz#500f74da23568902cbf25a93d572d41775569c9d"
+  integrity sha512-36vV+7lD2pp+0X5EASIbmf8u5ejrs4cGKCJZSmFYulCYdU6yrqzfmevGQR6D8DucuO7g7DyGdjMcanx9KH25OA==
 
 terser@^5.15.0:
   version "5.42.0"

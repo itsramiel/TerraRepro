@@ -13,7 +13,7 @@
     "react": "19.0.0",
     "react-native": "0.79.3",
     "react-native-config": "^1.5.5",
-    "terra-react": "^1.7.7"
+    "terra-react": "0.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
